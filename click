@@ -43,14 +43,30 @@ window.onload = function (){
 	var $outer = document.getElementById('outer');
 	var $mid = document.getElementById('mid');
 	var $inner = document.getElementById('inner');
+
+
+
+	$inner.onclick = function(){
+		console.log('onclick me ');
+	}
+	$inner.onclick = function(){
+		console.log('onclick me 2');  // 使用相同的属性只调用一次
+	}
+
+
+
 	$outer.addEventListener("click",function(){  //冒泡阶段，相对目标的父节点 false
 		console.log("outer,冒泡");
 	},false)
-	$mid.addEventListener("click",function(){
+	$mid.addEventListener("click",function(event){
 		console.log("mid,冒泡");
+		event.stopPropagation();
 	},false)
-	$inner.addEventListener("click",function(){
+	$inner.addEventListener("click",function(event){
 		console.log("inner,目标阶段");   //目标阶段，无所谓捕获还是冒泡。依照顺充执行。
+	})
+	$inner.addEventListener("click",function(event){
+		console.log("inner,目标阶段2");   // 用addEventListener多次调用，会多次执行。
 	})
 	$outer.addEventListener("click",function(){   //捕获阶段，相对目标的父节点  true
 		console.log("outer,捕获");
@@ -58,6 +74,18 @@ window.onload = function (){
 	$mid.addEventListener("click",function(){
 		console.log("mid,捕获");
 	},true)
+	$inner.addEventListener("mouseup",function(){
+		console.log("mouseup");
+	})
+	$inner.addEventListener("mousedown",function(){
+		console.log("mousedown");
+
+	},true)
+	$inner.addEventListener("dblclick",function(){
+		console.log("dblclick");
+	},true)
+
+
 
 }
 
